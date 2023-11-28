@@ -33,7 +33,7 @@ class _TimeAngleXChartState extends State<TimeAngleXChart> {
           final currentNumber = signal.pressure;
 
           // Adicione o novo ponto aos dados
-          data.add(FlSpot(data.length.toDouble(), currentNumber));
+          data.add(FlSpot(currentNumber,data.length.toDouble() ));
 
           // Atualize o máximo do eixo X se necessário
           if (data.length.toDouble() >= maxX) {

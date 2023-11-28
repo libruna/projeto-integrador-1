@@ -1,202 +1,256 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
-import 'package:rinf/rinf.dart';
+import 'package:syncfusion_flutter_gauges/gauges.dart';
+import 'package:testando/grafico2.dart';
+import 'package:testando/graficoy.dart';
+import 'package:testando/graficoz.dart';
+import 'package:testando/opcoes.dart';
+import 'bateria.dart';
+import 'grafico.dart';
+import 'package:fl_chart/fl_chart.dart';
 
-import 'package:monitor/pressureGauge.dart';
-import 'package:monitor/messages/request_serial_ports.pb.dart'
-    as serialPortsRequestResource;
+import 'package:flutter_cube/flutter_cube.dart';
 
-Future<List<String>> fetchSerialPorts() async {
-  final requestPayload = serialPortsRequestResource.ReadRequest();
-  final request = RustRequest(
-    resource: serialPortsRequestResource.ID,
-    operation: RustOperation.Read,
-    message: requestPayload.writeToBuffer(),
-  );
-  final response = await requestToRust(request);
-  final responseMessage = serialPortsRequestResource.ReadResponse.fromBuffer(
-    response.message!,
-  );
-  return responseMessage.portNames;
+void main() {
+  runApp(const MyApp());
 }
 
-void main() async {
-  await Rinf.ensureInitialized();
-  runApp(const App());
-}
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
 
-class App extends StatefulWidget {
-  const App({super.key});
-
-  @override
-  State<App> createState() => _AppState();
-}
-
-class _AppState extends State<App> {
-  final _appLifecycleListener = AppLifecycleListener(
-    onExitRequested: () async {
-      // Terminate Rust tasks before closing the Flutter app.
-      //await Rinf.ensureFinalized();
-      return AppExitResponse.exit;
-    },
-  );
-
-  @override
-  void dispose() {
-    _appLifecycleListener.dispose();
-    super.dispose();
-  }
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Monitor da Base v1',
+      title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         scaffoldBackgroundColor: const Color(0xAA3676BF),
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const HomePage(title: 'Home'),
+      home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
+class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
-  List<String> serialPortNames = [''];
-  String? selectedPort = '';
-  bool serialConnected = false;
+class _MyHomePageState extends State<MyHomePage> {
+  int _counter = 0;
 
-  @override
-  void initState() {
-    super.initState();
-    fetchSerialPorts().then((portNames) {
-      setState(() {
-        serialPortNames = portNames;
-        selectedPort = portNames.first;
-      });
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
     });
+  }
+
+  void _navigateToNewPage() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => NewPage(),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Serial port: ',
-                    style: Theme.of(context).textTheme.headlineSmall),
-                DropdownMenu<String>(
-                  width: 200,
-                  initialSelection: serialPortNames.first,
-                  dropdownMenuEntries: serialPortNames
-                      .map<DropdownMenuEntry<String>>((String value) {
-                    return DropdownMenuEntry<String>(
-                      value: value,
-                      label: value,
-                    );
-                  }).toList(),
-                  onSelected: (String? newValue) {
-                    setState(() {
-                      selectedPort = newValue!;
-                    });
-                  },
-                  menuStyle: MenuStyle(),
-                ),
-                FilledButton(
-                    onPressed: selectedPort == ''
-                        ? null
-                        : serialConnected
-                            ? null
-                            : () {
-                                setState(() {
-                                  serialConnected = true;
-                                  final requestPayload =
-                                      serialPortsRequestResource.CreateRequest(
-                                    portname: selectedPort,
-                                  );
-                                  final request = RustRequest(
-                                    resource: serialPortsRequestResource.ID,
-                                    operation: RustOperation.Create,
-                                    message: requestPayload.writeToBuffer(),
-                                  );
-                                  requestToRust(request);
-                                });
-                              },
-                    child: const Text('Connect'))
-              ],
+            const Text(
+              'You have pushed the button this many times:',
             ),
-            serialConnected
-                ? const PressureGauge()
-                : const Text('not connected'),
+            Text(
+              '$_counter',
+              style: Theme.of(context).textTheme.headline6,
+            ),
+            SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _navigateToNewPage,
+              child: Text('Go to New Page'),
+            ),
+          ],
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: _incrementCounter,
+        tooltip: 'Increment',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+
+class NewPage extends StatelessWidget {
+  final double currentNumber = 120.0; // Substitua pelo valor desejado
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('New Page'),
+      ),
+      body: Center(
+        child: Stack(
+          children: [
+            Positioned(
+              right: 75,
+              top: 100,
+              child: Container(
+                width: 200,
+                height: 200,
+                child: SfRadialGauge(
+                  axes: <RadialAxis>[
+                    RadialAxis(
+                      minimum: 0,
+                      maximum: 200,
+                      radiusFactor: 1.5,
+                      labelOffset: 30,
+                      axisLineStyle: AxisLineStyle(
+                        thicknessUnit: GaugeSizeUnit.factor,
+                        thickness: 0.03,
+                      ),
+                      majorTickStyle: MajorTickStyle(
+                        length: 6,
+                        thickness: 4,
+                        color: Colors.black,
+                      ),
+                      minorTickStyle: MinorTickStyle(
+                        length: 3,
+                        thickness: 3,
+                        color: Colors.black,
+                      ),
+                      axisLabelStyle: GaugeTextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 14,
+                      ),
+                      ranges: <GaugeRange>[
+                        GaugeRange(
+                          startValue: 0,
+                          endValue: 50,
+                          color: Colors.green,
+                          sizeUnit: GaugeSizeUnit.factor,
+                          startWidth: 0.03,
+                          endWidth: 0.03,
+                        ),
+                        GaugeRange(
+                          startValue: 50,
+                          endValue: 100,
+                          color: Colors.orange,
+                          sizeUnit: GaugeSizeUnit.factor,
+                          startWidth: 0.03,
+                          endWidth: 0.03,
+                        ),
+                        GaugeRange(
+                          startValue: 100,
+                          endValue: 150,
+                          color: Colors.red,
+                          sizeUnit: GaugeSizeUnit.factor,
+                          startWidth: 0.03,
+                          endWidth: 0.03,
+                        ),
+                      ],
+                      pointers: <GaugePointer>[
+                        NeedlePointer(
+                          value: currentNumber,
+                          needleLength: 0.5,
+                          enableAnimation: false,
+                          animationType: AnimationType.ease,
+                          needleStartWidth: 1.5,
+                          needleEndWidth: 6,
+                          needleColor: Colors.red,
+                          knobStyle: KnobStyle(knobRadius: 0.09),
+                        ),
+                      ],
+                      annotations: <GaugeAnnotation>[
+                        GaugeAnnotation(
+                          widget: Container(
+                            child: Column(
+                              children: <Widget>[
+                                Text(
+                                  currentNumber.toStringAsFixed(2),
+                                  style: TextStyle(
+                                    fontSize: 25,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Text(
+                                  'PSI',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          angle: 90,
+                          positionFactor: 1,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              left: 500,
+              top: 500,
+              child: Cube(
+                onSceneCreated: (Scene scene) {
+                  Object cube = Object(
+                    scale: Vector3(10, 10, 10),
+                    backfaceCulling: false,
+                    fileName: 'assets/cube/untitled.obj',
+                  );
+
+                  scene.world.add(cube);
+
+                  // Carregue o modelo 3D
+
+                  // Ajuste a posição da câmera e direcione-a para o ponto (0, 0, 0)
+                  scene.camera.position.z = 50;
+                  scene.camera.position.y = 20;
+                },
+              ),
+            ),
+            BatteryIndicator(batteryLevel: 100),
+
+            TimeDistanceChart(),
+
+            // ... (seu código de configuração do gráfico aqui)
+
+            TimeAngleXChart(),
+            TimeAngleYChart(),
+            TimeAngleZChart(),
+            Options(),
+
+            Positioned(
+              right: 150,
+              top: 500,
+              child: ElevatedButton(
+                onPressed: () {
+                  // Adicione a lógica do botão "Iniciar" aqui
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                ),
+                child: Text('Iniciar'),
+              ),
+            ),
           ],
         ),
       ),
