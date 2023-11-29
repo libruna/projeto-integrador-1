@@ -1,6 +1,0 @@
-syntax = "proto3";
-package pressure_stream;
-
-message StateSignal {
-    double pressure = 1;
-}
