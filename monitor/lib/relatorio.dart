@@ -1,5 +1,6 @@
 import 'grafDistancia.dart';
 import 'grafVelocidade.dart';
+import 'grafAltitude.dart';
 import 'package:flutter/material.dart';
 
 class Relatorio extends StatelessWidget {
@@ -14,9 +15,10 @@ class Relatorio extends StatelessWidget {
           children: [
             DistanceChart(),
             VelocityChart(),
+            HighChart(),
           ],
         )
-        
+
       ),
     );
   }
