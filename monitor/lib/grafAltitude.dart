@@ -13,7 +13,7 @@ class HighState extends State<HighChart> {
 ];
 
   double maxX = 10; // Inicialize o valor máximo do eixo X
-  double maxY = 50;
+  double maxY = 300;
   
 
   @override
