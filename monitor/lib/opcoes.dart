@@ -36,7 +36,7 @@ class Options extends StatelessWidget {
                     BorderRadius.circular(5), // Ajuste conforme necessário
               ),
             ),
-            child: Text('Compartilhar'),
+            child: Text('Limpar'),
           ),
         ],
       ),

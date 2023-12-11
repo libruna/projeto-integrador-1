@@ -22,7 +22,7 @@ class TimeAngleZChart extends StatefulWidget {
 class _TimeAngleZChartState extends State<TimeAngleZChart> {
   List<FlSpot> data = [];
 
-  double maxX = 6; // Inicialize o valor máximo do eixo X
+  double maxX = 20; // Inicialize o valor máximo do eixo X
   double maxY = 180;
   double lastYValue = 4.0; // Inicialize com um valor padrão
 
@@ -34,7 +34,7 @@ class _TimeAngleZChartState extends State<TimeAngleZChart> {
       child: Column(
         children: [
           Text(
-            'Gráfico de Tempo vs Variância z',
+            'Gráfico de Variância z vs Tempo',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

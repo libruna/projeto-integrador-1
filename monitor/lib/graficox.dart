@@ -22,7 +22,7 @@ class TimeAngleXChart extends StatefulWidget {
 class _TimeAngleXChartState extends State<TimeAngleXChart> {
   List<FlSpot> data = [];
 
-  double maxX = 6; // Inicialize o valor máximo do eixo X
+  double maxX = 20;
   double maxY = 180;
 
   @override
@@ -33,7 +33,7 @@ class _TimeAngleXChartState extends State<TimeAngleXChart> {
       child: Column(
         children: [
           Text(
-            'Gráfico de Tempo vs Variância x',
+            'Gráfico de Variância x vs Tempo',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

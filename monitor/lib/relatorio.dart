@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:screenshot/screenshot.dart';
-// 'pdf_generator.dart.txt';
+import 'pdf_generator.dart';
 import 'grafDistancia.dart';
 import 'grafVelocidade.dart';
 import 'grafAltitude.dart';
@@ -105,22 +105,22 @@ class Relatorio extends StatelessWidget {
             ),
           ],
         ),
-        // floatingActionButton: FloatingActionButton(
-        //  onPressed: () async {
-        //     // Aguarde a renderização dos gráficos
-        //     await Future.delayed(Duration(seconds: 1));
+        floatingActionButton: FloatingActionButton(
+          onPressed: () async {
+            // Aguarde a renderização dos gráficos
+            await Future.delayed(Duration(seconds: 2));
 
-        //     // Gere o PDF
-        //     await PdfGenerator.generatePdf(screenshotController);
+            // Gere o PDF
+            await PdfGenerator.generatePdf(screenshotController);
 
-        //     ScaffoldMessenger.of(context).showSnackBar(
-        //       SnackBar(
-        //         content: Text('PDF generated successfully'),
-        //       ),
-        //     );
-        //   },
-        //  child: Icon(Icons.picture_as_pdf),
-        // ),
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('PDF generated successfully'),
+              ),
+            );
+          },
+          child: Icon(Icons.picture_as_pdf),
+        ),
       ),
     );
   }
