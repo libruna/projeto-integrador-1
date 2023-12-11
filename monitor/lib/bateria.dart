@@ -9,7 +9,7 @@ class BatteryIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      right: 100,
+      right: 45,
       top: 400,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,

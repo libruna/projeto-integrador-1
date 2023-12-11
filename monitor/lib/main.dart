@@ -1,3 +1,7 @@
+import 'package:monitor/lancamentos.dart';
+
+import 'auth.dart';
+import 'voo.dart';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -125,7 +129,7 @@ class _HomePageState extends State<HomePage> {
         // TRY THIS: Try changing the color here to a specific color (to
         // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
         // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
@@ -149,6 +153,22 @@ class _HomePageState extends State<HomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.grey,
+                shape: RoundedRectangleBorder(
+                  borderRadius:
+                      BorderRadius.circular(5), // Ajuste conforme necessário
+                ),
+              ),
+              child: Text('Skip'),
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -194,9 +214,7 @@ class _HomePageState extends State<HomePage> {
                     child: const Text('Connect'))
               ],
             ),
-            serialConnected
-                ? const PressureGauge()
-                : const Text('not connected'),
+            serialConnected ? LoginPage() : const Text('not connected'),
           ],
         ),
       ),

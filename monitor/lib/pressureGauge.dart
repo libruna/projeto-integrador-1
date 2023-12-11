@@ -21,108 +21,65 @@ class PressureGauge extends StatelessWidget {
             rustSignal.message!,
           );
           final currentNumber = signal.pressure;
-          return Positioned(
-            right: 75,
-            top: 100,
-            child: Container(
-              width: 200,
-              height: 200,
-              child: SfRadialGauge(
-                axes: <RadialAxis>[
-                  RadialAxis(
-                    minimum: 0,
-                    maximum: 200,
-                    radiusFactor: 1.5,
-                    labelOffset: 30,
-                    axisLineStyle: AxisLineStyle(
-                      thicknessUnit: GaugeSizeUnit.factor,
-                      thickness: 0.03,
-                    ),
-                    majorTickStyle: MajorTickStyle(
-                      length: 6,
-                      thickness: 4,
-                      color: Colors.black,
-                    ),
-                    minorTickStyle: MinorTickStyle(
-                      length: 3,
-                      thickness: 3,
-                      color: Colors.black,
-                    ),
-                    axisLabelStyle: GaugeTextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                    ranges: <GaugeRange>[
-                      GaugeRange(
-                        startValue: 0,
-                        endValue: 50,
-                        color: Colors.green,
-                        sizeUnit: GaugeSizeUnit.factor,
-                        startWidth: 0.03,
-                        endWidth: 0.03,
-                      ),
-                      GaugeRange(
-                        startValue: 50,
-                        endValue: 100,
-                        color: Colors.orange,
-                        sizeUnit: GaugeSizeUnit.factor,
-                        startWidth: 0.03,
-                        endWidth: 0.03,
-                      ),
-                      GaugeRange(
-                        startValue: 100,
-                        endValue: 150,
-                        color: Colors.red,
-                        sizeUnit: GaugeSizeUnit.factor,
-                        startWidth: 0.03,
-                        endWidth: 0.03,
-                      ),
-                    ],
-                    pointers: <GaugePointer>[
-                      NeedlePointer(
-                        value: currentNumber,
-                        needleLength: 0.5,
-                        enableAnimation: false,
-                        animationType: AnimationType.ease,
-                        needleStartWidth: 1.5,
-                        needleEndWidth: 6,
-                        needleColor: Colors.red,
-                        knobStyle: KnobStyle(knobRadius: 0.09),
-                      ),
-                    ],
-                    annotations: <GaugeAnnotation>[
-                      GaugeAnnotation(
-                        widget: Container(
-                          child: Column(
-                            children: <Widget>[
-                              Text(
-                                currentNumber.toStringAsFixed(2),
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              SizedBox(height: 20),
-                              Text(
-                                'PSI',
-                                style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        angle: 90,
-                        positionFactor: 1,
-                      ),
-                    ],
-                  ),
+          return SfRadialGauge(axes: <RadialAxis>[
+            RadialAxis(
+                minimum: 0,
+                maximum: 200,
+                labelOffset: 30,
+                axisLineStyle: AxisLineStyle(
+                    thicknessUnit: GaugeSizeUnit.factor, thickness: 0.03),
+                majorTickStyle: MajorTickStyle(
+                    length: 6, thickness: 4, color: Colors.black),
+                minorTickStyle: MinorTickStyle(
+                    length: 3, thickness: 3, color: Colors.black),
+                axisLabelStyle: GaugeTextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14),
+                ranges: <GaugeRange>[
+                  GaugeRange(
+                      startValue: 0,
+                      endValue: 200,
+                      sizeUnit: GaugeSizeUnit.factor,
+                      startWidth: 0.03,
+                      endWidth: 0.03,
+                      gradient: SweepGradient(colors: const <Color>[
+                        Colors.green,
+                        Colors.yellow,
+                        Colors.red
+                      ], stops: const <double>[
+                        0.0,
+                        0.5,
+                        1
+                      ]))
                 ],
-              ),
-            ),
-          );
+                pointers: <GaugePointer>[
+                  NeedlePointer(
+                      value: currentNumber,
+                      needleLength: 0.5,
+                      enableAnimation: false,
+                      animationType: AnimationType.ease,
+                      needleStartWidth: 1.5,
+                      needleEndWidth: 6,
+                      needleColor: Colors.red,
+                      knobStyle: KnobStyle(knobRadius: 0.09))
+                ],
+                annotations: <GaugeAnnotation>[
+                  GaugeAnnotation(
+                      widget: Container(
+                          child: Column(children: <Widget>[
+                        Text(currentNumber.toStringAsFixed(2),
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold)),
+                        SizedBox(height: 20),
+                        Text('PSI',
+                            style: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold))
+                      ])),
+                      angle: 90,
+                      positionFactor: 1.6)
+                ])
+          ]);
         }
       },
     );

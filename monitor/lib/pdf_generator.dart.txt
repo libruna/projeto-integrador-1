@@ -1,0 +1,78 @@
+import 'dart:typed_data';
+import 'dart:html' as html;
+import 'package:flutter/material.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
+import 'package:screenshot/screenshot.dart';
+
+class PdfGenerator {
+  static Future<void> generatePdf(ScreenshotController screenshotController) async {
+    final pdf = pw.Document();
+
+    // Capture a screenshot e adicione à primeira página do PDF
+    await _captureAndAddToPdf(pdf, screenshotController);
+
+    // Role para baixo antes de capturar a segunda screenshot
+    html.window.scrollTo(0, html.document.body!.scrollHeight);
+
+    // Aguarde um curto período antes de capturar o screenshot
+    await Future.delayed(Duration(milliseconds: 500));
+
+    // Capture uma segunda screenshot e adicione à segunda página do PDF
+    await _captureAndAddToPdf(pdf, screenshotController);
+
+    // Salve o PDF no diretório de Downloads
+    final Uint8List bytes = await pdf.save();
+
+    // Crie um Blob a partir do Uint8List
+    final blob = html.Blob([Uint8List.fromList(bytes)], 'application/pdf');
+
+    // Crie uma URL temporária para o Blob
+    final url = html.Url.createObjectUrlFromBlob(blob);
+
+    // Crie um elemento de âncora
+    final anchor = html.AnchorElement(href: url)
+      ..target = 'blank'
+      ..download = 'report.pdf';
+
+    // Programe um clique no elemento de âncora
+    html.document.body?.children.add(anchor);
+    anchor.click();
+
+    // Remova o elemento de âncora do DOM
+    html.document.body?.children.remove(anchor);
+
+    // Libere a URL temporária
+    html.Url.revokeObjectUrl(url);
+  }
+
+  static Future<void> _captureAndAddToPdf(
+      pw.Document pdf, ScreenshotController screenshotController) async {
+    try {
+      // Capture a screenshot e adicione à página do PDF
+      final Uint8List? screenshot = await _captureScreen(screenshotController);
+      if (screenshot != null) {
+        pdf.addPage(
+          pw.Page(
+            build: (pw.Context context) {
+              return pw.Center(
+                child: pw.Image(pw.MemoryImage(screenshot)),
+              );
+            },
+          ),
+        );
+      }
+    } catch (e) {
+      print('Error capturing screenshot: $e');
+    }
+  }
+
+  static Future<Uint8List?> _captureScreen(ScreenshotController controller) async {
+    try {
+      return await controller.capture();
+    } catch (e) {
+      print('Error capturing screen: $e');
+      return null;
+    }
+  }
+}
