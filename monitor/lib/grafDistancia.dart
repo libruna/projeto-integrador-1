@@ -24,7 +24,7 @@ class DistanceState extends State<DistanceChart> {
     FlSpot(0, 0),
   ];
 
-  double maxX = 10; // Inicialize o valor máximo do eixo X
+  double maxX = 80;
   double maxY = 300;
 
   @override
@@ -35,7 +35,7 @@ class DistanceState extends State<DistanceChart> {
       child: Column(
         children: [
           Text(
-            'Gráfico de distância vs Tempo',
+            'Gráfico de distância vs pressao',
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

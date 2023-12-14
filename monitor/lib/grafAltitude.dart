@@ -24,7 +24,7 @@ class HighState extends State<HighChart> {
     FlSpot(0, 0),
   ];
 
-  double maxX = 10; // Inicialize o valor máximo do eixo X
+  double maxX = 10;
   double maxY = 50;
 
   @override

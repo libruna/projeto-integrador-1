@@ -108,16 +108,15 @@ class SelecaoOpcao extends StatelessWidget {
               fontWeight: FontWeight.w700,
               color: Colors.white,
             ),
-          ); // Texto com o nome do lançamento ou um título padrão
+          );
         }
       },
     );
   }
 
   Future<String> _recuperaNomeLancamento() async {
-    // Substitua isso com a lógica real para obter o nome do lançamento do banco de dados
     await Future.delayed(Duration(seconds: 2));
-    return nomeLancamento; // Exemplo de retorno, substitua com a lógica real
+    return nomeLancamento;
   }
 
   void _navegaParaPagRelatorio(BuildContext context) {

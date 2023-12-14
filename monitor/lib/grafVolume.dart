@@ -22,13 +22,13 @@ class VolumeChart extends StatefulWidget {
 
 class VolumeState extends State<VolumeChart> {
   List<FlSpot> data = [FlSpot(0, 0)];
-  double maxX = 6; // Inicialize o valor máximo do eixo X
+  double maxX = 6;
   double maxY = 300;
-  double currentY = 0; // Inicialize a altura inicial dos pontos
+  double currentY = 0;
   TextEditingController _controller = TextEditingController();
   int tempo = 0;
   bool isGenerating = false;
-  double enteredValue = 0; // Adiciona a variável enteredValue
+  double enteredValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -55,10 +55,12 @@ class VolumeState extends State<VolumeChart> {
                     titlesData: FlTitlesData(
                       show: true,
                       leftTitles: AxisTitles(
-                        sideTitles: SideTitles(reservedSize: 40, showTitles: true),
+                        sideTitles:
+                            SideTitles(reservedSize: 40, showTitles: true),
                       ),
                       bottomTitles: AxisTitles(
-                        sideTitles: SideTitles(reservedSize: 40, showTitles: true),
+                        sideTitles:
+                            SideTitles(reservedSize: 40, showTitles: true),
                       ),
                       rightTitles: AxisTitles(
                         sideTitles: SideTitles(showTitles: false),
@@ -83,7 +85,6 @@ class VolumeState extends State<VolumeChart> {
                     ],
                   ),
                 ),
-               
                 Positioned(
                   top: 250,
                   left: 50,
@@ -122,9 +123,9 @@ class VolumeState extends State<VolumeChart> {
       setState(() {
         if (isGenerating) {
           tempo++;
-          if(tempo.toDouble() >= maxX) maxX += 10;
-          
-          if(currentY >= maxY) maxY += 300;
+          if (tempo.toDouble() >= maxX) maxX += 10;
+
+          if (currentY >= maxY) maxY += 300;
           data.add(FlSpot(tempo.toDouble(), currentY));
           currentY = enteredValue - (50 * tempo);
 

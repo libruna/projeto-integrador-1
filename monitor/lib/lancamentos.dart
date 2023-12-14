@@ -15,8 +15,7 @@ class _LancamentoState extends State<Lancamento> {
   final double buttonHeight = 50;
   final double alterarButtonSize = 50;
 
-  String textoBotaoClicado =
-      ''; // Variável para armazenar o texto do botão clicado
+  String textoBotaoClicado = '';
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +115,6 @@ class _LancamentoState extends State<Lancamento> {
                   }
                 });
 
-                // Atualize a variável com o texto do botão clicado
                 textoBotaoClicado = controller.text;
 
                 Navigator.of(context).pop();

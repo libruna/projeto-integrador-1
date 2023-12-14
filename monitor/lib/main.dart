@@ -163,8 +163,7 @@ class _HomePageState extends State<HomePage> {
               style: ElevatedButton.styleFrom(
                 backgroundColor: Colors.grey,
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                      BorderRadius.circular(5), // Ajuste conforme necessário
+                  borderRadius: BorderRadius.circular(5),
                 ),
               ),
               child: Text('Skip'),
@@ -214,7 +213,23 @@ class _HomePageState extends State<HomePage> {
                     child: const Text('Connect'))
               ],
             ),
-            serialConnected ? LoginPage() : const Text('not connected'),
+            serialConnected
+                ? ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => LoginPage()),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.grey,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                    ),
+                    child: Text('Skip'),
+                  )
+                : const Text('not connected'),
           ],
         ),
       ),

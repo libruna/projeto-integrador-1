@@ -22,7 +22,7 @@ class TimeAngleYChart extends StatefulWidget {
 class _TimeAngleYChartState extends State<TimeAngleYChart> {
   List<FlSpot> data = [];
 
-  double maxX = 20; // Inicialize o valor máximo do eixo X
+  double maxX = 10;
   double maxY = 180;
 
   @override

@@ -22,9 +22,9 @@ class TimeAngleZChart extends StatefulWidget {
 class _TimeAngleZChartState extends State<TimeAngleZChart> {
   List<FlSpot> data = [];
 
-  double maxX = 20; // Inicialize o valor máximo do eixo X
+  double maxX = 10;
   double maxY = 180;
-  double lastYValue = 4.0; // Inicialize com um valor padrão
+  double lastYValue = 4.0;
 
   @override
   Widget build(BuildContext context) {

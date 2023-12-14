@@ -36,9 +36,7 @@ class NewPage extends StatelessWidget {
               right: 150,
               top: 500,
               child: ElevatedButton(
-                onPressed: () {
-                  // Adicione a lógica do botão "Iniciar" aqui
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.green,
                 ),

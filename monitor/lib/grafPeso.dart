@@ -21,14 +21,14 @@ class WeightChart extends StatefulWidget {
 }
 
 class WeightState extends State<WeightChart> {
-  List<FlSpot> data = [FlSpot(0, 200)];
-  double maxX = 6; // Inicialize o valor máximo do eixo X
+  List<FlSpot> data = [FlSpot(0, 500)];
+  double maxX = 6;
   double maxY = 300;
-  double currentY = 0; // Inicialize a altura inicial dos pontos
+  double currentY = 0;
   TextEditingController _controller = TextEditingController();
   int tempo = 0;
   bool isGenerating = false;
-  double enteredValue = 0; // Adiciona a variável enteredValue
+  double enteredValue = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -129,7 +129,7 @@ class WeightState extends State<WeightChart> {
           data.add(FlSpot(tempo.toDouble(), currentY));
           currentY = enteredValue - (50 * tempo);
 
-          if (currentY < 200) {
+          if (currentY < 500) {
             isGenerating = false;
           }
         }

@@ -22,7 +22,7 @@ class TimeAngleXChart extends StatefulWidget {
 class _TimeAngleXChartState extends State<TimeAngleXChart> {
   List<FlSpot> data = [];
 
-  double maxX = 20;
+  double maxX = 10;
   double maxY = 180;
 
   @override

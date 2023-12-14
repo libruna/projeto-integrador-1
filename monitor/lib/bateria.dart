@@ -14,13 +14,11 @@ class BatteryIndicator extends StatelessWidget {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // Barra de bateria vertical
           Container(
             width: 20,
             height: 100,
             decoration: BoxDecoration(
-              border:
-                  Border.all(color: Colors.black, width: 2.5), // Ajuste aqui
+              border: Border.all(color: Colors.black, width: 2.5),
               borderRadius: BorderRadius.circular(5),
             ),
             child: FractionallySizedBox(
@@ -37,7 +35,6 @@ class BatteryIndicator extends StatelessWidget {
             ),
           ),
           SizedBox(height: 8),
-          // Texto da porcentagem de bateria
           Text(
             '$batteryLevel%',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),

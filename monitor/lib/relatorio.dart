@@ -107,10 +107,8 @@ class Relatorio extends StatelessWidget {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () async {
-            // Aguarde a renderização dos gráficos
             await Future.delayed(Duration(seconds: 2));
 
-            // Gere o PDF
             await PdfGenerator.generatePdf(screenshotController);
 
             ScaffoldMessenger.of(context).showSnackBar(

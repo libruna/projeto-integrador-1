@@ -20,20 +20,18 @@ class Options extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.grey,
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(5), // Ajuste conforme necessário
+                borderRadius: BorderRadius.circular(5),
               ),
             ),
             child: Text('Relatório'),
           ),
-          SizedBox(width: 10), // Ajuste conforme necessário
+          SizedBox(width: 10),
           ElevatedButton(
             onPressed: () {},
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.grey,
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(5), // Ajuste conforme necessário
+                borderRadius: BorderRadius.circular(5),
               ),
             ),
             child: Text('Limpar'),
